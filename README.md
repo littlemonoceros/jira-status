@@ -1,9 +1,10 @@
-# Jira工单统计技能 V2.2
+# Jira Stats - OpenClaw技能
 
 一个为OpenClaw设计的Jira工单统计技能，支持自动统计任意release版本的工单修复时间，生成可视化报告。
 
 ## 功能特性
 ✅ **多维度统计**：按release版本、工单类型、优先级筛选统计
+✅ **未关闭BUG查询**：支持查询指定版本的未关闭BUG，使用正确的JQL筛选条件
 ✅ **组件维度分析**：自动按组件分组，输出平均/最短/最长修复时间
 ✅ **最长工单追踪**：自动展示每个组件耗时最长的工单编号和描述
 ✅ **可视化报告**：自动生成带柱状图的HTML报告，直观对比各组件效率
@@ -13,6 +14,14 @@
 ✅ **效率提升**：批量导出+自动分析，统计速度提升10倍
 
 ## 用法
+### OpenClaw中直接使用
+```
+查询 M1000 release 1.4.0 未关闭的 Highest 问题
+查询 M1000 release 1.5.0 未关闭的 High 问题
+统计 M1000 release 1.4.0 BUG_ 的修复时间
+```
+
+### 命令行使用
 ```bash
 python run.py <release名称> <工单类型> [priority级别]
 ```
@@ -24,9 +33,19 @@ python run.py "M1000 release 1.4.0" BUG_
 
 # 统计M1000 release 1.4.0版本Highest优先级BUG的修复时间
 python run.py "M1000 release 1.4.0" BUG_ highest
+
+# 查询未关闭BUG
+python run.py "M1000 release 1.4.0" BUG_ Highest
 ```
 
 支持的优先级：Highest, High, Medium, Low, Lowest
+
+## 未关闭BUG查询说明
+正确的JQL筛选条件：
+- status IN (In-Progress, NEW, In-Verify, Blocked)
+- priority = Highest（或其他级别）
+- issuetype = BUG_
+- fixVersion = 用户指定的版本
 
 ## 输出格式
 ### 文本报告
@@ -44,14 +63,7 @@ python run.py "M1000 release 1.4.0" BUG_ highest
 1. Power组件平均修复时间最长（96.2小时）
 2. Apollo-BSP组件工单最多（8个）
 3. WiFi/Bluetooth组件修复最快（24.5小时）
-
-## 📎 附件
-- 📊 可视化报告: /tmp/jira-stats-M1000-release-1.4.0.html
-- 📄 原始数据: /tmp/jira-stats-M1000-release-1.4.0.csv
 ```
-
-### 可视化报告
-自动生成HTML柱状图，支持浏览器打开查看交互效果。
 
 ## 依赖
 - OpenClaw浏览器控制能力
@@ -59,18 +71,19 @@ python run.py "M1000 release 1.4.0" BUG_ highest
 - 可正常访问Jira页面
 
 ## 版本更新
+### V2.4 (2026-03-12)
+- ✅ 未关闭BUG精确查询：使用正确的JQL筛选未关闭的Highest优先级BUG
+- ✅ 状态筛选修正：status使用In-Progress, NEW, In-Verify, Blocked
+- ✅ 项目过滤：默认添加project = SW过滤
+- ✅ fixVersion支持多版本：支持同时查询多个fixVersion
+
+### V2.3 (2026-03-11)
+- ✅ 未关闭问题查询：支持查询指定版本所有未关闭的Highest/High优先级问题
+- ✅ 多版本同时查询：支持同时查询多个release版本的工单数据
+
 ### V2.2 (2026-03-11)
 - ✅ 数据准确性保障：所有结果自动双校验
 - ✅ 效率提升10倍：批量CSV导出+自动分析
-- ✅ 多格式输出：表格/HTML/CSV三种格式
-- ✅ 进度自动同步：每5分钟汇报进度
-- ✅ 故障快速响应：可视化服务失败直接返回文件内容
-
-### V2.1 (2026-03-11)
-- ✅ 柱状图按修复时间降序排列
-- ✅ 柱子上方标注具体数值
-- ✅ 自动生成完整HTML报告
-- ✅ 自动计算占比和天数转换
 
 ## License
 MIT
