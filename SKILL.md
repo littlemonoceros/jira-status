@@ -54,11 +54,10 @@
 ```
 查询 <release名称或多个版本> 未关闭的 <priority级别> 问题
 # 示例：
-查询 M1000 release 1.4.0 未关闭的 Highest 问题
-查询 M1000 Aimodule 1.4.0 未关闭的 Highest 问题
-查询 M1000 release 1.4.0 和 M1000 Aimodule 1.4.0 未关闭的 Highest 问题
-查询 M1000 release 1.5.0 未关闭的 Highest 问题
-查询 M1000 AIBOOK 1.4.0 未关闭的 High 问题
+查询 alpha release 1.0.1 未关闭的 Highest 问题
+查询 beta release 2.0.0 未关闭的 Highest 问题
+查询 alpha release 1.0.1 和 beta release 2.0.0 未关闭的 Highest 问题
+查询 gamma release 1.5.0 未关闭的 High 问题
 ```
 
 **注意**：未关闭的正确筛选条件为：

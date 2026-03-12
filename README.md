@@ -16,9 +16,9 @@
 ## 用法
 ### OpenClaw中直接使用
 ```
-查询 M1000 release 1.4.0 未关闭的 Highest 问题
-查询 M1000 release 1.5.0 未关闭的 High 问题
-统计 M1000 release 1.4.0 BUG_ 的修复时间
+查询 alpha release 1.0.1 未关闭的 Highest 问题
+查询 beta release 2.0.0 未关闭的 High 问题
+统计 alpha release 1.0.1 BUG_ 的修复时间
 ```
 
 ### 命令行使用
@@ -28,14 +28,14 @@ python run.py <release名称> <工单类型> [priority级别]
 
 ### 示例
 ```bash
-# 统计M1000 release 1.4.0版本所有BUG的修复时间
-python run.py "M1000 release 1.4.0" BUG_
+# 统计alpha release 1.0.1版本所有BUG的修复时间
+python run.py "alpha release 1.0.1" BUG_
 
-# 统计M1000 release 1.4.0版本Highest优先级BUG的修复时间
-python run.py "M1000 release 1.4.0" BUG_ highest
+# 统计alpha release 1.0.1版本Highest优先级BUG的修复时间
+python run.py "alpha release 1.0.1" BUG_ highest
 
 # 查询未关闭BUG
-python run.py "M1000 release 1.4.0" BUG_ Highest
+python run.py "alpha release 1.0.1" BUG_ Highest
 ```
 
 支持的优先级：Highest, High, Medium, Low, Lowest
@@ -50,19 +50,19 @@ python run.py "M1000 release 1.4.0" BUG_ Highest
 ## 输出格式
 ### 文本报告
 ```
-# M1000 release 1.4.0 BUG_修复时间统计
+# alpha release 1.0.1 BUG_修复时间统计
 | 组件 | 工单数量 | 平均修复时间(小时) | 最短修复时间(小时) | 最长修复时间(小时) | 最长修复工单 |
 |------|----------|-------------------|-------------------|-------------------|--------------|
-| Apollo-BSP | 8 | 84.3 | 48.2 | 144.6 | SW-73753: UEFI界面无法显示EC Version |
+| Component-A | 8 | 84.3 | 48.2 | 144.6 | SW-12345: 示例问题描述 |
 
 ## 整体汇总
 - 总工单数量: 95
 - 整体平均修复时间: 57.6 小时（约2.4天）
 
 ## 重点发现
-1. Power组件平均修复时间最长（96.2小时）
-2. Apollo-BSP组件工单最多（8个）
-3. WiFi/Bluetooth组件修复最快（24.5小时）
+1. Component-A平均修复时间最长（96.2小时）
+2. Component-B工单最多（8个）
+3. Component-C修复最快（24.5小时）
 ```
 
 ## 依赖
