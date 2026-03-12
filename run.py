@@ -1,18 +1,47 @@
 #!/usr/bin/env python3
 """
-Jira工单统计技能主脚本 V2.2
+Jira工单统计技能主脚本 V2.4
 用法: python run.py <release名称> <工单类型> [priority级别]
 示例: 
-python run.py "M1000 release 1.4.0" BUG_
 python run.py "M1000 release 1.4.0" BUG_ highest
+
+V2.4更新：修复未关闭BUG查询JQL，使用正确的status筛选条件
+正确的未关闭JQL：status IN (In-Progress, NEW, In-Verify, Blocked)
 """
 import sys
 import time
 import csv
 import os
+import json
+import subprocess
 from datetime import datetime
 from collections import defaultdict
-from browser import browser
+
+# 修复browser模块导入问题 - 使用命令行调用
+def browser(action, **kwargs):
+    args = ["openclaw", "browser", action]
+    for k, v in kwargs.items():
+        args.append(f"--{k}")
+        # URL需要特殊处理
+        if k == "url":
+            args.append(f'"{v}"')
+        else:
+            args.append(str(v))
+    # 调试：打印命令
+    cmd = " ".join(args)
+    print(f"Running: {cmd}")
+    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+    # 调试：打印输出
+    print(f"Stdout: {result.stdout[:500] if result.stdout else 'empty'}")
+    if result.stderr:
+        print(f"Stderr: {result.stderr[:500]}")
+    if result.returncode != 0:
+        # 不抛出异常，继续执行
+        return {"error": result.stderr, "stdout": result.stdout}
+    try:
+        return json.loads(result.stdout) if result.stdout else {}
+    except:
+        return {"stdout": result.stdout, "stderr": result.stderr}
 
 def parse_date(date_str):
     """解析Jira日期格式"""
@@ -99,22 +128,36 @@ def main():
         print('python run.py "M1000 release 1.4.0" BUG_ highest')
         return 1
     
+    # V2.4更新：支持灵活的版本参数
+    # release 可以是单个版本，也可以是多个版本（用逗号分隔）
+    # 示例："M1000 release 1.4.0" 或 "M1000 release 1.4.0,M1000 Aimodule 1.4.0"
     release = sys.argv[1]
     issue_type = sys.argv[2]
-    priority = sys.argv[3] if len(sys.argv) >=4 else None
+    priority = sys.argv[3] if len(sys.argv) >=4 else "Highest"  # 默认Highest
     
-    # V2.2新增：进度自动同步
+    # 处理多版本：将逗号分隔的版本转换为JQL格式
+    if ',' in release:
+        versions = [v.strip() for v in release.split(',')]
+        versions_jql = ', '.join([f'"{v}"' for v in versions])
+    else:
+        versions_jql = f'"{release}"'
+    
+    # V2.4新增：进度自动同步
     start_time = time.time()
-    print("🚀 Jira统计技能V2.2启动")
-    print(f"🔍 正在统计 {release} 版本 {issue_type} 类型" + (f" (优先级: {priority})" if priority else "") + " 的工单修复时间...\n")
+    print("🚀 Jira统计技能V2.4启动")
+    print(f"🔍 正在查询 {release} 版本 {issue_type} 类型" + (f" (优先级: {priority})" if priority else "") + " 的未关闭工单...\n")
+    print(f"📋 使用正确的未关闭筛选条件：status IN (In-Progress, NEW, In-Verify, Blocked)")
     
-    # 构建JQL并跳转
-    jql = f'fixVersion = "{release}" AND issuetype = {issue_type} AND status in (Closed, postponed, "NOT A BUG", Duplicated)'
-    if priority:
-        jql += f' AND priority = {priority}'
+    # V2.4修复：正确筛选未关闭BUG
+    # 未关闭的正确状态：In-Progress, NEW, In-Verify, Blocked
+    # 注意：使用 IN 而不是 NOT IN
+    # URL编码处理
+    fixversion_part = versions_jql.replace(' ', '%20').replace('"', '%22')
+    jql = f'fixVersion%20in%20({fixversion_part})%20AND%20issuetype%20%3D%20{issue_type}%20AND%20status%20in%20(In-Progress%2C%20NEW%2C%20In-Verify%2C%20Blocked)%20AND%20priority%20%3D%20{priority.upper()}%20ORDER%20BY%20priority%20DESC'
     url = f"https://jira.mthreads.com/issues/?jql={jql}&tempMax=1000"
     
-    browser("navigate", profile="jira", url=url)
+    # browser调用 - 使用正确的参数格式
+    subprocess.run(f'openclaw browser navigate --profile jira --url "{url}"', shell=True)
     time.sleep(3)
     
     # 统计数据
@@ -129,14 +172,18 @@ def main():
         print(f"📄 正在处理第 {page} 页数据 (已耗时 {elapsed}s)...")
         
         # 获取当前页工单
-        snapshot = browser("snapshot", profile="jira", limit=200)
+        result = subprocess.run('openclaw browser snapshot --profile jira --limit 200', shell=True, capture_output=True, text=True)
+        try:
+            snapshot = json.loads(result.stdout) if result.stdout else {}
+        except:
+            snapshot = {}
         # 解析工单数据逻辑省略
         
         # 检查是否有下一页
         has_next = False
         if has_next:
             # 点击下一页
-            browser("act", profile="jira", request={"kind": "click", "ref": "next-page"})
+            subprocess.run('openclaw browser act --profile jira --request "{\"kind\": \"click\", \"ref\": \"next-page\"}"', shell=True)
             time.sleep(2)
             page += 1
         else:

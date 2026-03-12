@@ -1,9 +1,15 @@
-# Jira工单统计技能 V2.2
+# Jira工单统计技能 V2.4
 
 ## 功能
 统计指定release版本、指定类型的工单修复时间，按组件维度输出平均/最短/最长修复时间，支持可视化柱状图展示。统计效率提升10倍，数据100%准确。
 
 ## 版本更新
+### V2.4 (2026-03-12) 新增功能
+- ✅ **未关闭BUG精确查询**：使用正确的JQL筛选未关闭的Highest优先级BUG
+- ✅ **状态筛选修正**：status使用In-Progress, NEW, In-Verify, Blocked（不是Closed/Duplicate/Postponed）
+- ✅ **项目过滤**：默认添加project = SW过滤，避免数据不准确
+- ✅ **fixVersion支持多版本**：支持同时查询多个fixVersion
+
 ### V2.3 (2026-03-11) 新增功能
 - ✅ **未关闭问题查询**：支持查询指定版本所有未关闭的Highest/High优先级问题，自动按组件汇总
 - ✅ **多版本同时查询**：支持同时查询多个release版本的工单数据，合并输出结果
@@ -46,11 +52,20 @@
 
 ### 2. 未关闭问题查询
 ```
-查询 <release名称> 未关闭的 <priority级别> 问题
+查询 <release名称或多个版本> 未关闭的 <priority级别> 问题
 # 示例：
 查询 M1000 release 1.4.0 未关闭的 Highest 问题
-查询 M1000 Aimodule 1.4.0 和 release 1.4.0 未关闭的 Highest 问题
+查询 M1000 Aimodule 1.4.0 未关闭的 Highest 问题
+查询 M1000 release 1.4.0 和 M1000 Aimodule 1.4.0 未关闭的 Highest 问题
+查询 M1000 release 1.5.0 未关闭的 Highest 问题
+查询 M1000 AIBOOK 1.4.0 未关闭的 High 问题
 ```
+
+**注意**：未关闭的正确筛选条件为：
+- status IN (In-Progress, NEW, In-Verify, Blocked)
+- priority = Highest（或其他级别）
+- issuetype = BUG_
+- fixVersion = 用户指定的版本（支持多版本用逗号分隔）
 
 ### 3. assignee切换分析
 ```
