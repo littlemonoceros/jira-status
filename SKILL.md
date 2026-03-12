@@ -45,9 +45,9 @@
 ```
 统计 <release名称> <工单类型> [priority级别] 的修复时间
 # 示例：
-统计 M1000 release 1.4.0 BUG_ 的修复时间
-统计 M1000 release 1.4.0 BUG_ highest 的修复时间
-统计 1.5.0版本 Story High 的处理时间
+统计 alpha release 1.0.1 BUG_ 的修复时间
+统计 alpha release 1.0.1 BUG_ highest 的修复时间
+统计 1.0.0版本 Story High 的处理时间
 ```
 
 ### 2. 未关闭问题查询
@@ -70,7 +70,7 @@
 ```
 统计 <release名称> assignee切换超过3次的工单
 # 示例：
-统计 M1000 release 1.4.0 assignee切换超过3次的工单
+统计 alpha release 1.0.1 assignee切换超过3次的工单
 ```
 
 支持的priority级别：Highest, High, Medium, Low, Lowest
