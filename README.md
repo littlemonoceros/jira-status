@@ -41,7 +41,19 @@ python run.py "alpha release 1.0.1" BUG_ Highest
 支持的优先级：Highest, High, Medium, Low, Lowest
 
 ## 未关闭BUG查询说明
-正确的JQL筛选条件：
+### 交互式确认流程
+当用户请求查询未关闭BUG时，必须先确认筛选条件：
+
+1. **告知默认条件**：
+   - status: IN (In-Progress, NEW, In-Verify, Blocked)
+   - issuetype: BUG_
+   - priority: Highest
+
+2. **等待用户确认**：用户可能确认正确、修改条件或选择其他选项
+
+3. **确认后执行查询**
+
+### JQL筛选条件
 - status IN (In-Progress, NEW, In-Verify, Blocked)
 - priority = Highest（或其他级别）
 - issuetype = BUG_
