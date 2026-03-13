@@ -112,7 +112,7 @@
 查询 alpha release 1.0.1 未关闭的 Highest 问题
 查询 beta release 2.0.0 未关闭的 Highest 问题
 查询 alpha release 1.0.1 和 beta release 2.0.0 未关闭的 Highest 问题
-查询 gamma release 1.5.0 未关闭的 High 问题
+查询 gamma release x.x.x 未关闭的 High 问题
 ```
 
 **注意**：未关闭的正确筛选条件为：
