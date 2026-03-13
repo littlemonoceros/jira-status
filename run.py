@@ -3,8 +3,10 @@
 Jira工单统计技能主脚本 V2.8
 用法: python run.py <release名称> <工单类型> [priority级别]
 示例: 
-python run.py "M1000 release 1.4.0" BUG_ highest
-python run.py "M1000 Aimodule 1.4.0" Highest 评论
+python run.py "<release名称>" <类型> <优先级>
+示例: 
+python run.py "alpha release 1.0.1" BUG_ highest
+python run.py "beta release 2.0.0" Highest 评论
 
 V2.8更新：标准化的评论报告模板
 - PDF文件名格式：<release>_<priority>_<type>_评论报告_YYYYMMDD_HHMM.pdf
@@ -128,13 +130,13 @@ def main():
     if len(sys.argv) < 3:
         print("用法: python run.py <release名称> <工单类型> [priority级别]")
         print("示例:")
-        print('python run.py "M1000 release 1.4.0" BUG_')
-        print('python run.py "M1000 release 1.4.0" BUG_ highest')
+        print('python run.py "alpha release 1.0.1" BUG_')
+        print('python run.py "alpha release 1.0.1" BUG_ highest')
         return 1
     
     # V2.4更新：支持灵活的版本参数
     # release 可以是单个版本，也可以是多个版本（用逗号分隔）
-    # 示例："M1000 release 1.4.0" 或 "M1000 release 1.4.0,M1000 Aimodule 1.4.0"
+    # 示例："alpha release 1.0.1" 或 "alpha release 1.0.1,beta release 2.0.0"
     release = sys.argv[1]
     issue_type = sys.argv[2]
     priority = sys.argv[3] if len(sys.argv) >=4 else "Highest"  # 默认Highest

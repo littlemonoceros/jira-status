@@ -133,7 +133,7 @@
 ```
 统计 <release名称> <priority级别> 评论情况
 # 示例：
-统计 M1000 release 1.4.0 Highest 的评论情况
+统计 alpha release 1.0.1 Highest 的评论情况
 统计 alpha release 1.0.1 High 的评论间隔
 ```
 

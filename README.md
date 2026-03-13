@@ -20,7 +20,7 @@
 查询 alpha release 1.0.1 未关闭的 Highest 问题
 查询 beta release 2.0.0 未关闭的 High 问题
 统计 alpha release 1.0.1 BUG_ 的修复时间
-统计 M1000 release 1.4.0 Highest 的评论情况
+统计 alpha release 1.0.1 Highest 的评论情况
 ```
 
 ### 命令行使用
@@ -40,7 +40,7 @@ python run.py "alpha release 1.0.1" BUG_ highest
 python run.py "alpha release 1.0.1" BUG_ Highest
 
 # 统计评论情况
-python run.py "M1000 Aimodule 1.4.0" Highest 评论
+python run.py "beta release 2.0.0" Highest 评论
 ```
 
 支持的优先级：Highest, High, Medium, Low, Lowest
