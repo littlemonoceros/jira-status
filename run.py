@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 """
-Jira工单统计技能主脚本 V2.4
+Jira工单统计技能主脚本 V2.8
 用法: python run.py <release名称> <工单类型> [priority级别]
 示例: 
 python run.py "M1000 release 1.4.0" BUG_ highest
+python run.py "M1000 Aimodule 1.4.0" Highest 评论
 
-V2.4更新：修复未关闭BUG查询JQL，使用正确的status筛选条件
-正确的未关闭JQL：status IN (In-Progress, NEW, In-Verify, Blocked)
+V2.8更新：标准化的评论报告模板
+- PDF文件名格式：<release>_<priority>_<type>_评论报告_YYYYMMDD_HHMM.pdf
+- 表格列：Ticket(超链接) | 标题 | Component | 状态 | 首次评论间隔 | 平均评论间隔
+- 标题去除【M2014】【AIModule】前缀
+- 柱状图：水平放置，从高到低排序，数值在柱子内部
 """
 import sys
 import time
@@ -144,7 +148,7 @@ def main():
     
     # V2.4新增：进度自动同步
     start_time = time.time()
-    print("🚀 Jira统计技能V2.4启动")
+    print("🚀 Jira统计技能V2.8启动")
     print(f"🔍 正在查询 {release} 版本 {issue_type} 类型" + (f" (优先级: {priority})" if priority else "") + " 的未关闭工单...\n")
     print(f"📋 使用正确的未关闭筛选条件：status IN (In-Progress, NEW, In-Verify, Blocked)")
     

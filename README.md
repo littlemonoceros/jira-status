@@ -12,6 +12,7 @@
 ✅ **数据校验**：自动双校验机制，确保统计结果100%准确
 ✅ **进度同步**：每步操作自动汇报进度，无需用户催促
 ✅ **效率提升**：批量导出+自动分析，统计速度提升10倍
+✅ **评论情况统计**：统计首次评论间隔、平均评论间隔，按Component维度汇总
 
 ## 用法
 ### OpenClaw中直接使用
@@ -19,6 +20,7 @@
 查询 alpha release 1.0.1 未关闭的 Highest 问题
 查询 beta release 2.0.0 未关闭的 High 问题
 统计 alpha release 1.0.1 BUG_ 的修复时间
+统计 M1000 release 1.4.0 Highest 的评论情况
 ```
 
 ### 命令行使用
@@ -36,6 +38,9 @@ python run.py "alpha release 1.0.1" BUG_ highest
 
 # 查询未关闭BUG
 python run.py "alpha release 1.0.1" BUG_ Highest
+
+# 统计评论情况
+python run.py "M1000 Aimodule 1.4.0" Highest 评论
 ```
 
 支持的优先级：Highest, High, Medium, Low, Lowest
@@ -83,6 +88,17 @@ python run.py "alpha release 1.0.1" BUG_ Highest
 - 可正常访问Jira页面
 
 ## 版本更新
+### V2.8 (2026-03-13)
+- ✅ **评论报告模板标准化**：
+  - PDF文件名格式：`<release>_<priority>_<type>_评论报告_YYYYMMDD_HHMM.pdf`
+  - 表格列：Ticket(超链接) | 标题 | Component | 状态 | 首次评论间隔 | 平均评论间隔
+  - 标题去除【M2014】【AIModule】前缀
+  - 柱状图：水平放置，从高到低排序，数值标注在柱子内部
+  - 移除详情表格底色和多余字段（创建时间、评论数）
+  - 关键发现基于全部数据，不区分状态
+  - Component维度汇总表 + 全部问题详情表
+- ✅ **评论情况统计**：支持统计首次评论间隔、平均评论间隔
+
 ### V2.4 (2026-03-12)
 - ✅ 未关闭BUG精确查询：使用正确的JQL筛选未关闭的Highest优先级BUG
 - ✅ 状态筛选修正：status使用In-Progress, NEW, In-Verify, Blocked
