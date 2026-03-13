@@ -45,6 +45,34 @@ python run.py "beta release 2.0.0" Highest 评论
 
 支持的优先级：Highest, High, Medium, Low, Lowest
 
+## 评论情况统计说明
+当用户询问以下内容时激活：
+- 统计评论情况
+- 首次评论间隔
+- 平均评论间隔
+- 评论响应时间
+- 按Component维度分析评论
+
+### 触发示例
+```
+统计 M1000 Aimodule 1.4.0 Highest 的评论情况
+统计 alpha release 1.0.1 High 的评论间隔
+```
+
+### 输出内容
+- **首次评论间隔**：从ticket创建到第一条评论的天数
+- **平均评论间隔**：所有相邻评论之间天数的平均值
+- **按Component维度汇总**：自动按组件聚合数据
+- **全部问题详情表**：Ticket(超链接) | 标题 | Component | 状态 | 首次评论间隔 | 平均评论间隔
+
+### PDF报告
+自动生成可视化PDF报告，文件名格式：
+```
+<release>_<priority>_<type>_评论报告_YYYYMMDD_HHMM.pdf
+```
+
+例如：`M1000 Aimodule 1.4.0_Highest_BUG_评论报告_20260313_1038.pdf`
+
 ## 未关闭BUG查询说明
 ### 交互式确认流程
 当用户请求查询未关闭BUG时，必须先确认筛选条件：
