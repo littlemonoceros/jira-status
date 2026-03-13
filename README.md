@@ -55,7 +55,7 @@ python run.py "beta release 2.0.0" Highest 评论
 
 ### 触发示例
 ```
-统计 M1000 Aimodule 1.4.0 Highest 的评论情况
+统计 beta release 2.0.0 Highest 的评论情况
 统计 alpha release 1.0.1 High 的评论间隔
 ```
 
@@ -71,7 +71,7 @@ python run.py "beta release 2.0.0" Highest 评论
 <release>_<priority>_<type>_评论报告_YYYYMMDD_HHMM.pdf
 ```
 
-例如：`M1000 Aimodule 1.4.0_Highest_BUG_评论报告_20260313_1038.pdf`
+例如：`beta release 2.0.0_Highest_BUG_评论报告_20260313_1038.pdf`
 
 ## 未关闭BUG查询说明
 ### 交互式确认流程
